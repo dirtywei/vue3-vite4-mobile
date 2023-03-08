@@ -1,11 +1,11 @@
 <template>
-  <div class="home"> Home </div>
+  <div class="home">
+    <svg-icon iconName="logo"></svg-icon>
+  </div>
 </template>
 
 <script setup>
   import { sStorage } from '@/utils'
-  const count = ref(0)
-  console.log(count.value)
   sStorage.set('TEST_LS', '你好啊')
 </script>
 

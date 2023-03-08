@@ -1,5 +1,6 @@
 import { getToken } from '@/utils'
 import { resolveResError } from './helpers'
+import { showToast } from 'vant'
 
 export function reqResolve(config) {
   // 处理不需要token的请求
@@ -35,7 +36,7 @@ export function resResolve(response) {
     const message = resolveResError(code, data?.message ?? statusText)
 
     /** 需要错误提醒 */
-    !config.noNeedTip && window.$message?.error(message)
+    !config.noNeedTip && showToast(message)
     return Promise.reject({ code, message, error: data || response })
   }
   return Promise.resolve(data)
@@ -46,13 +47,13 @@ export function resReject(error) {
     const code = error?.code
     /** 根据code处理对应的操作，并返回处理后的message */
     const message = resolveResError(code, error.message)
-    window.$message?.error(message)
+    showToast(message)
     return Promise.reject({ code, message, error })
   }
   const { data, status, config } = error.response
   const code = data?.code ?? status
   const message = resolveResError(code, data?.message ?? error.message)
   /** 需要错误提醒 */
-  !config?.noNeedTip && window.$message?.error(message)
+  !config?.noNeedTip && showToast(message)
   return Promise.reject({ code, message, error: error.response?.data || error.response })
 }
